@@ -1,11 +1,14 @@
 #include <stdlib.h>
-#include <stdio.h>
 #include <string.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <inttypes.h>
+#include <ctype.h>
 
 typedef struct s_riff {
     char ChunkID[4];
     uint32_t ChunkSize;
-    char Fomart[4];
+    char Format[4];
 } riff_t;
 
 typedef struct s_fmt {
@@ -22,7 +25,7 @@ typedef struct s_fmt {
 typedef struct s_data {
     char SubChunk2ID[4];
     uint32_t SubChunk2Size;
-} data_T;
+} data_t;
 
 typedef struct s_header {
     riff_t RIFF;
