@@ -33,4 +33,8 @@ typedef struct s_header {
     data_t data;
 } wav_header;
 
+typedef struct s_wav {
+    wav_header header;
+    int16_t *audio;
+} wav_t;
 
