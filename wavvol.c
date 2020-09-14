@@ -14,7 +14,7 @@ int main (int argc, char **argv) {
 
             case 'i':      
                 file_input = fopen(optarg, "r");
-                if (file_input = NULL) {
+                if (file_input == NULL) {
                     fprintf(stderr, "Couldn't open file %s", optarg);
                     exit(-1);
                 }

@@ -5,6 +5,8 @@
 #include <inttypes.h>
 #include <ctype.h>
 
+#define MAX_VOL 35000
+
 typedef struct s_riff {
     char ChunkID[4];
     uint32_t ChunkSize;
@@ -38,3 +40,28 @@ typedef struct s_wav {
     int16_t *audio;
 } wav_t;
 
+/**
+ * Function to write audio data. 
+ * Receives a s_wav struct by reference (&s_wav).
+ * Receives a file pointer as the output file.
+ */
+void writeAudioData(wav_t *wav_pointer, FILE *output);
+
+
+/**
+ * Function to read audio data. 
+ * Receives a s_wav struct by reference (&s_wav).
+ * Receives a file pointer as the input file.
+ */
+void readAudioData(wav_t *wav_pointer,FILE *input);
+
+/**
+ * Function to change audio volume. 
+ * Receives a s_wav struct by reference (&s_wav).
+ * Receives a float volume level value.
+ */
+void changeVol(wav_t *wav_pointer, float lvl);
+
+void normalizer(wav_t *wav_pointer);
+
+int16_t max(int16_t *array, long int size);
