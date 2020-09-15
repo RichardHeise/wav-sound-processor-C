@@ -12,6 +12,8 @@ void writeAudioData(wav_t *wav_pointer, FILE *output) {
     fwrite(wav_pointer->audio,sizeof(int16_t),wav_pointer->header.data.SubChunk2Size/2, output);
 }
 
+//==================================================================//
+
 void changeVol(wav_t *wav_pointer, float lvl) {
     int i;
     long int test;
@@ -40,6 +42,8 @@ int16_t max(int16_t *array, long int size) {
     return max;
 }
 
+//===================================================================//
+
 void normalizer(wav_t *wav_pointer) {
     int16_t peak;
     int16_t diff;
@@ -57,9 +61,21 @@ void reverser(wav_t *wav_pointer, FILE *output) {
     int i;
 
     fwrite(&wav_pointer->header, sizeof(wav_pointer->header), 1, output);
-    for (i=(wav_pointer->header.data.SubChunk2Size/2) - 1; i > 0; i -= 1) {
+
+    for (i=(wav_pointer->header.data.SubChunk2Size/2)-2; i > 0; i -= 2) {
         fwrite(&wav_pointer->audio[i], sizeof(int16_t), 1, output);
-        i -= 1;
-        fwrite(&wav_pointer->audio[i], sizeof(int16_t), 1, output);
+        ++i;
+        fwrite(&wav_pointer->audio[i--], sizeof(int16_t), 1, output);
+    }
+}
+
+//=================================================================//
+
+void echo(wav_t *wav_pointer, int time, float lvl) {
+    int i;
+    int delay = wav_pointer->header.fmt.Nchannels * wav_pointer->header.fmt.Sample_rate * time/1000;
+    fprintf(stderr, "delay: %d", delay);    
+    for (i=delay+1; i < wav_pointer->header.data.SubChunk2Size/2; i++) {
+        wav_pointer->audio[i] += (lvl * wav_pointer->audio[i - delay]);
     }
 }

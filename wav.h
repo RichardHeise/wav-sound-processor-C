@@ -76,3 +76,5 @@ void normalizer(wav_t *wav_pointer);
 int16_t max(int16_t *array, long int size);
 
 void reverser(wav_t *wav_pointer, FILE *output);
+
+void echo(wav_t *wav_pointer, int delay, float lvl);
