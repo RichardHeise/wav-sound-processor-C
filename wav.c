@@ -51,3 +51,15 @@ void normalizer(wav_t *wav_pointer) {
     changeVol(wav_pointer, level);
 }
 
+//==================================================================//
+
+void reverser(wav_t *wav_pointer, FILE *output) {
+    int i;
+
+    fwrite(&wav_pointer->header, sizeof(wav_pointer->header), 1, output);
+    for (i=(wav_pointer->header.data.SubChunk2Size/2) - 1; i > 0; i -= 1) {
+        fwrite(&wav_pointer->audio[i], sizeof(int16_t), 1, output);
+        i -= 1;
+        fwrite(&wav_pointer->audio[i], sizeof(int16_t), 1, output);
+    }
+}

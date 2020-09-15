@@ -21,7 +21,7 @@ static void manageArgs(int argc, char **argv, FILE **input, FILE **output) {
 
             default:
                 fprintf (stderr, "Usage: %s -i input -o output\n", argv[0]);
-	            exit(-3);
+	            exit(-2);
         }
     }
 }

@@ -62,6 +62,17 @@ void readAudioData(wav_t *wav_pointer,FILE *input);
  */
 void changeVol(wav_t *wav_pointer, float lvl);
 
+/**
+ * Function to normalize audio volume. 
+ * Receives a s_wav struct by reference (&s_wav).
+ */
 void normalizer(wav_t *wav_pointer);
 
+/**
+ * Function to find max value in an int16_t array.
+ * Receives an array of int16_t.
+ * Receives a long int size of an array.
+ */
 int16_t max(int16_t *array, long int size);
+
+void reverser(wav_t *wav_pointer, FILE *output);

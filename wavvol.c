@@ -1,33 +1,28 @@
 #include "wav.h"
 
-int main (int argc, char **argv) {
-    
-    FILE *file_input = stdin;
-    FILE *file_output = stdout;
-    float level = 1.0;
-    wav_t wav;
-    int option;
+static void manageArgs(int argc, char **argv, FILE **input, FILE **output, float *lvl) {
 
+    int option;
     while ((option = getopt (argc, argv, "i:o:l:")) != -1) {
         float parsed_arg;
         switch (option) {
 
             case 'i':      
-                file_input = fopen(optarg, "r");
-                if (file_input == NULL) {
+                (*input) = fopen(optarg, "r");
+                if ((*input) == NULL) {
                     fprintf(stderr, "Couldn't open file %s", optarg);
                     exit(-1);
                 }
                 break;
 
             case 'o':
-                file_output = fopen(optarg, "a");
+                (*output) = fopen(optarg, "a");
                 break;
 
             case 'l':
                 parsed_arg = atof(optarg);
                 if (parsed_arg <= 10.0 && parsed_arg >= 0.0) {
-                    level = parsed_arg;
+                    (*lvl) = parsed_arg;
                     break;
                 }
 
@@ -39,7 +34,16 @@ int main (int argc, char **argv) {
 	            exit(-3);
         }
     }
+}
 
+int main (int argc, char **argv) {
+    
+    FILE *file_input = stdin;
+    FILE *file_output = stdout;
+    float level = 1.0;
+    wav_t wav;
+
+    manageArgs(argc, argv, &file_input, &file_output, &level);
     readAudioData(&wav, file_input);
     changeVol(&wav, level);
     writeAudioData(&wav, file_output);
