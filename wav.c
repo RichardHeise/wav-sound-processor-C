@@ -7,7 +7,7 @@ void readAudioData(wav_t *wav_pointer,FILE *input) {
     fread(wav_pointer->audio, 2, wav_pointer->header.data.SubChunk2Size, input);
 }
 
-//-------------------------------------------------------------------//
+//------------------------------------------------------------------//
 
 void writeAudioData(wav_t *wav_pointer, FILE *output) {
     fwrite(&wav_pointer->header, sizeof(wav_pointer->header), 1, output);
