@@ -5,7 +5,7 @@
 #include <inttypes.h>
 #include <ctype.h>
 
-#define MAX_VOL 35000
+#define MAX_VOL 29409
 
 typedef struct s_riff {
     char ChunkID[4];
@@ -80,3 +80,5 @@ void reverser(wav_t *wav_pointer, FILE *output);
 void echo(wav_t *wav_pointer, int delay, float lvl);
 
 void wider(wav_t *wav_pointer, float k);
+
+void readWav(wav_t *wavs, char *input);
