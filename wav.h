@@ -72,13 +72,64 @@ void normalizer(wav_t *wav_pointer);
  * Function to find max value in an int16_t array.
  * Receives an array of int16_t.
  * Receives a long int size of an array.
+ * Returns the max value as an int16_t.
  */
 int16_t max(int16_t *array, long int size);
 
+/**
+ * Function to reverse an audio file.
+ * Receives a s_wav struct by reference (&s_wav).
+ * Receives a FILE pointer to be used as the output.
+ */
 void reverser(wav_t *wav_pointer, FILE *output);
 
+/**
+ * Function to produce echo in an audio file.
+ * Receives a s_wav struct by reference (&s_Wav).
+ * Receives a int value in miliseconds.
+ * Receives a float level of the echo value.
+ */
 void echo(wav_t *wav_pointer, int delay, float lvl);
 
+/**
+ * Function to wide an stereo audio.
+ * Receives a s_wav struct by reference (&s_wav).
+ * Receives a float value to use as wide value.
+ */
 void wider(wav_t *wav_pointer, float k);
 
-void readWav(wav_t *wavs, char *input);
+/**
+ * Function to read wavs from an array.
+ * Receives a s_wav pointer. 
+ * Receives a int size of the array of wavs.
+ * Receives a char array pointer to be used as file names which 
+   will be opened. This can be argv.
+ * Receives an int index static array which has all the indexs
+   of the file names. 
+ */
+void readWavs(wav_t *wavs, int size, char **inputs, int indexs[]);
+
+/**
+ * Function to mix wavs from an array;
+ * Receives a s_wav pointer as the input wav array.
+ * Receives a int size of the array of wavs.
+ * Receives a s_wav pointer as the output s_wav struct.
+ */
+void mixWavs(wav_t *wavs, int size, wav_t *wav_out);
+
+/**
+ * Function to copy an audio array into another audio array.
+ * Receives a int16_t pointer input array.
+ * Receives a uinst32_t size of input array.
+ * Receives a int16_t pointer output array.
+ * Receives the beginning of the output array as a uint32_t pointer.
+ */
+void copyAudio(int16_t *inputA, uint32_t size, int16_t *outputA, uint32_t *beg);
+
+/**
+ * Function to concat wav files into a single file.
+ * Receives a s_wav pointer as the input wav array.
+ * Receives a int size of the s_wav array.
+ * Receives a s_wav pointer as output wav.
+ */
+void concatWavs(wav_t *wavs, int size, wav_t *wav_out);

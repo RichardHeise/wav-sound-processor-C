@@ -15,54 +15,6 @@ static void manageArgs(int argc, char **argv, FILE **output, int indexs[],int *s
       }
     }
 }
- 
-void readWavs(wav_t *wavs, int size, char **inputs, int indexs[]) {
-    int i;
-    FILE *input;
-    
-    for (i=0; i < size; i++) {
-        input = fopen(inputs[indexs[i]], "r");
-        if (!input) {
-          fprintf(stderr, "Couldn't open file %s\n", inputs[indexs[i]]);
-          exit(-2);
-        }
-        readAudioData(&wavs[i], input);
-    }
-} 
-
-void mixAudio(int16_t *inputA, uint32_t size, int16_t *outputA) {
-    uint32_t i;
-    int32_t test = 0;
-    for (i = 0; i < size; i++) {
-        test = outputA[i] + inputA[i];
-        if (test > MAX_VOL) {
-            test = MAX_VOL;
-        } else if (test < -MAX_VOL) {
-            test = -MAX_VOL;
-        }
-
-        outputA[i] = test;
-    }
-
-}
-
-void mixWavs(wav_t *wavs, int size, wav_t *wav_out) {
-    int i;
-    int max = wavs[0].header.data.SubChunk2Size;
-
-    wav_out->header = wavs[0].header;
-    for (i = 1; i < size; i++) {
-        if (wavs[i].header.data.SubChunk2Size > max) {
-            max = wavs[i].header.data.SubChunk2Size;
-            wav_out->header = wavs[i].header;
-        }
-    }
-    wav_out->audio = malloc(sizeof(int16_t) * max/2);
-
-    for (i = 0; i < size; i++) {
-        mixAudio(wavs[i].audio, wavs[i].header.data.SubChunk2Size/2, wav_out->audio);
-    }
-} 
 
 int main (int argc, char **argv) {
 

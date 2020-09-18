@@ -93,3 +93,86 @@ void wider(wav_t *wav_pointer, float k) {
         wav_pointer->audio[i] += k * diff;
     }
 }
+
+//===============================================================//
+
+void mixAudio(int16_t *inputA, uint32_t size, int16_t *outputA) {
+    uint32_t i;
+    int32_t test = 0;
+    for (i = 0; i < size; i++) {
+        test = outputA[i] + inputA[i];
+        if (test > MAX_VOL) {
+            test = MAX_VOL;
+        } else if (test < -MAX_VOL) {
+            test = -MAX_VOL;
+        }
+
+        outputA[i] = test;
+    }
+}
+
+//==============================================================//
+
+void mixWavs(wav_t *wavs, int size, wav_t *wav_out) {
+    int i;
+    int max = wavs[0].header.data.SubChunk2Size;
+
+    wav_out->header = wavs[0].header;
+    for (i = 1; i < size; i++) {
+        if (wavs[i].header.data.SubChunk2Size > max) {
+            max = wavs[i].header.data.SubChunk2Size;
+            wav_out->header = wavs[i].header;
+        }
+    }
+    wav_out->audio = malloc(sizeof(int16_t) * max/2);
+
+    for (i = 0; i < size; i++) {
+        mixAudio(wavs[i].audio, wavs[i].header.data.SubChunk2Size/2, wav_out->audio);
+    }
+} 
+
+//============================================================//
+
+void concatWavs(wav_t *wavs, int size, wav_t *wav_out) {
+    int i;
+    uint32_t currentPos = 0;
+    
+    wav_out->header = wavs[0].header;
+    for (i = 1; i < size; i++) {
+        wav_out->header.data.SubChunk2Size += wavs[i].header.data.SubChunk2Size;
+        wav_out->header.RIFF.ChunkSize += wavs[i].header.RIFF.ChunkSize;
+    }
+    wav_out->audio = malloc(sizeof(int16_t) * wav_out->header.data.SubChunk2Size/2);
+
+    for (i = 0; i < size; i++) {
+        copyAudio(wavs[i].audio, wavs[i].header.data.SubChunk2Size/2, wav_out->audio, &currentPos);
+        currentPos += 1;
+    }
+}
+
+//===============================================================//
+
+void copyAudio(int16_t *inputA, uint32_t size, int16_t *outputA, uint32_t *beg) {
+    uint32_t i;
+
+    for (i = 0; i < size; i++) {
+        outputA[(*beg)+i] = inputA[i];
+    }
+    (*beg) += i;
+} 
+
+//=============================================================//
+
+void readWavs(wav_t *wavs, int size, char **inputs, int indexs[]) {
+    int i;
+    FILE *input;
+    
+    for (i=0; i < size; i++) {
+        input = fopen(inputs[indexs[i]], "r");
+        if (!input) {
+          fprintf(stderr, "Couldn't open file %s\n", inputs[indexs[i]]);
+          exit(-2);
+        }
+        readAudioData(&wavs[i], input);
+    }
+} 

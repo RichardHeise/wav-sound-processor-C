@@ -15,46 +15,6 @@ static void manageArgs(int argc, char **argv, FILE **output, int indexs[],int *s
       }
     }
 }
- 
-void readWavs(wav_t *wavs, int size, char **inputs, int indexs[]) {
-    int i;
-    FILE *input;
-    
-    for (i=0; i < size; i++) {
-        input = fopen(inputs[indexs[i]], "r");
-        if (!input) {
-          fprintf(stderr, "Couldn't open file %s\n", inputs[indexs[i]]);
-          exit(-2);
-        }
-        readAudioData(&wavs[i], input);
-    }
-} 
-
-void copyAudio(int16_t *inputA, uint32_t size, int16_t *outputA, uint32_t *beg) {
-    uint32_t i;
-
-    for (i = 0; i < size; i++) {
-        outputA[(*beg)+i] = inputA[i];
-    }
-    (*beg) += i;
-}
-
-void concatWavs(wav_t *wavs, int size, wav_t *wav_out) {
-    int i;
-    uint32_t currentPos = 0;
-    
-    wav_out->header = wavs[0].header;
-    for (i = 1; i < size; i++) {
-        wav_out->header.data.SubChunk2Size += wavs[i].header.data.SubChunk2Size;
-        wav_out->header.RIFF.ChunkSize += wavs[i].header.RIFF.ChunkSize;
-    }
-    wav_out->audio = malloc(sizeof(int16_t) * wav_out->header.data.SubChunk2Size/2);
-
-    for (i = 0; i < size; i++) {
-        copyAudio(wavs[i].audio, wavs[i].header.data.SubChunk2Size/2, wav_out->audio, &currentPos);
-        currentPos += 1;
-    }
-} 
 
 int main (int argc, char **argv) {
 
