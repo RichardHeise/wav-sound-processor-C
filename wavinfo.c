@@ -38,7 +38,7 @@ static void manageArgs (int argc, char **argv, FILE ** input) {
 
         // If file couldn't be open there's an error
 	      if ((*input) == NULL) {
-	          fprintf (stderr, "Couldn't open file %s", optarg);
+	          fprintf (stderr, "Couldn't open file %s.\n", optarg);
 	          exit (EXIT_FILE);
 	        }
 	      break;
@@ -60,7 +60,8 @@ int main(int argc, char **argv) {
     fprintf(stderr, "Couldn't read .wav file.\n");
     exit(EXIT_READ);
   };
-  printHeader (&header);
+  printHeader(&header);
+  fclose(file_input);
 
   return 1;
 }

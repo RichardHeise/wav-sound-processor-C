@@ -36,15 +36,17 @@ int main (int argc, char **argv) {
 
   manageArgs (argc, argv, &file_output, files_indexs, &arg_number);
 
-  input_wavs = malloc (sizeof (wav_t) * arg_number);
-  if (! input_wavs) {
-    fprintf(stderr, "Couldn't allocate memory\n");
+  input_wavs = malloc(sizeof (wav_t) * arg_number);
+  if (input_wavs == NULL) {
+    fprintf(stderr, "Couldn't allocate memory.\n");
     exit(EXIT_MEM);
   }
 
   readWavs (input_wavs, arg_number, argv, files_indexs);
   concatWavs (input_wavs, arg_number, &output_wav);
   writeAudioData (&output_wav, file_output);
+
+  free(input_wavs);
 
 
   return 1;

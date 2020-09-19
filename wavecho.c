@@ -17,7 +17,7 @@ static void manageArgs (int argc, char **argv, FILE ** input, FILE ** output, fl
 
 				// If it fails to open file there's an error
 			  if ((*input) == NULL) {
-			    fprintf (stderr, "Couldn't open file %s", optarg);
+			    fprintf (stderr, "Couldn't open file %s.\n", optarg);
 			    exit (EXIT_FILE);
 			  }
 			  break;
@@ -52,8 +52,8 @@ static void manageArgs (int argc, char **argv, FILE ** input, FILE ** output, fl
 			default:
 		  	fprintf (stderr, "Usage: %s -t delay -l level -i input -o output\n", argv[0]);
 		  	exit (EXIT_USAGE);
-			}
-    }
+		}
+	}
 }
 
 int main (int argc, char **argv) {

@@ -15,7 +15,7 @@ static void manageArgs (int argc, char **argv, FILE ** input, FILE ** output) {
 
         // If file couldn't be open there's an error
 	      if ((*input) == NULL) {
-	          fprintf (stderr, "Couldn't open file %s", optarg);
+	          fprintf (stderr, "Couldn't open file %s.\n", optarg);
 	          exit (EXIT_FILE);
 	        }
 	      break;

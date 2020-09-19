@@ -23,6 +23,8 @@ void readAudioData(wav_t *wav_pointer, FILE *input) {
         fprintf(stderr, "Couldn't read .wav audio file.\n");
         exit(EXIT_READ);
     };
+
+    fclose(input);
 }
 
 //------------------------------------------------------------------//
@@ -33,6 +35,8 @@ void writeAudioData(wav_t *wav_pointer, FILE *output) {
     // This way is simpler to detect where errors may happen. 
     fwrite(&wav_pointer->header, sizeof (wav_pointer->header), 1, output);
     fwrite(wav_pointer->audio, sizeof (int16_t), wav_pointer->header.data.SubChunk2Size / 2, output);
+
+    free(wav_pointer->audio);
 }
 
 //==================================================================//
@@ -109,6 +113,8 @@ void reverser(wav_t *wav_pointer, FILE *output) {
         ++i;
         fwrite (&wav_pointer->audio[i--], sizeof (int16_t), 1, output);
     }
+
+    free(wav_pointer->audio);
 }
 
 //=================================================================//
@@ -191,6 +197,7 @@ void mixWavs (wav_t *wavs, int size, wav_t *wav_out) {
     }   
     for (i = 0; i < size; i++) {
         mixAudio (wavs[i].audio, wavs[i].header.data.SubChunk2Size / 2,wav_out->audio);
+        free(wavs[i].audio);
     }
 }
 
@@ -218,7 +225,8 @@ void concatWavs(wav_t *wavs, int size, wav_t *wav_out) {
 
     for (i = 0; i < size; i++) {
         // We need to tell our CopyAudio() where to begin the concat process on the output wav.
-        copyAudio (wavs[i].audio, wavs[i].header.data.SubChunk2Size / 2, wav_out->audio, &currentPos);
+        copyAudio(wavs[i].audio, wavs[i].header.data.SubChunk2Size / 2, wav_out->audio, &currentPos);
+        free(wavs[i].audio);
         currentPos += 1;
     }
 }

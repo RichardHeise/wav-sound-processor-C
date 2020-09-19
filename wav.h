@@ -8,13 +8,19 @@
 #include <inttypes.h>
 #include <ctype.h>
 
+// Max volume used to avoid clipping
 #define MAX_VOL     29409
+
+// Errors defines
 #define EXIT_USAGE -1
 #define EXIT_FLAG  -2
 #define EXIT_FILE  -3
 #define EXIT_MEM   -4
 #define EXIT_READ  -5
 
+/* Abstract types */
+
+// RIFF struct
 typedef struct s_riff
 {
   char ChunkID[4];
@@ -22,6 +28,7 @@ typedef struct s_riff
   char Format[4];
 } riff_t;
 
+// fmt struct
 typedef struct s_fmt
 {
   char SubChunk1ID[4];
@@ -34,12 +41,14 @@ typedef struct s_fmt
   uint16_t Bits_per_sample;
 } fmt_t;
 
+// data struct
 typedef struct s_data
 {
   char SubChunk2ID[4];
   uint32_t SubChunk2Size;
 } data_t;
 
+// header struct 
 typedef struct s_header
 {
   riff_t RIFF;
@@ -47,6 +56,7 @@ typedef struct s_header
   data_t data;
 } wav_header;
 
+// Wav struct
 typedef struct s_wav
 {
   wav_header header;
@@ -137,8 +147,7 @@ void mixWavs (wav_t * wavs, int size, wav_t * wav_out);
  * Receives a int16_t pointer output array.
  * Receives the beginning of the output array as a uint32_t pointer.
  */
-void copyAudio (int16_t * inputA, uint32_t size, int16_t * outputA,
-		uint32_t * beg);
+void copyAudio (int16_t * inputA, uint32_t size, int16_t * outputA, uint32_t * beg);
 
 /**
  * Function to concat wav files into a single file.
