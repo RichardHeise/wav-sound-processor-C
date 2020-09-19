@@ -1,41 +1,48 @@
+// Author: Richard Fernando Heise Ferreira
+// GRR20191053
+
 #include "wav.h"
 
-static void manageArgs(int argc, char **argv, FILE **input, FILE **output) {
+static void manageArgs (int argc, char **argv, FILE ** input, FILE ** output) {
 
-    int option;
-    while ((option = getopt (argc, argv, "i:o:")) != -1) {
-        switch (option) {
+  int option;
+  while ((option = getopt (argc, argv, "i:o:")) != -1) {
+    switch (option) {
 
-            case 'i':      
-                (*input) = fopen(optarg, "r");
-                if ((*input) == NULL) {
-                    fprintf(stderr, "Couldn't open file %s", optarg);
-                    exit(-1);
-                }
-                break;
+		case 'i':
+        // Tries to open optarg in read mode
+	      (*input) = fopen(optarg, "r");
 
-            case 'o':
-                (*output) = fopen(optarg, "a");
-                break;
+        // If file couldn't be open there's an error
+	      if ((*input) == NULL) {
+	          fprintf (stderr, "Couldn't open file %s", optarg);
+	          exit (EXIT_FILE);
+	        }
+	      break;
 
-            default:
-                fprintf (stderr, "Usage: %s -i input -o output\n", argv[0]);
-	            exit(-2);
-        }
-    }
+		case 'o':
+				// Creates a file in append mode 
+		  	(*output) = fopen(optarg, "a");
+		  	break;
+
+		default:
+		  fprintf (stderr, "Usage: %s -i input -o output\n", argv[0]);
+		  exit (EXIT_USAGE);
+		}
+  }
 }
 
 int main (int argc, char **argv) {
 
-    FILE *file_input = stdin;
-    FILE *file_output = stdout;
-    wav_t wav;
+  FILE *file_input = stdin;
+  FILE *file_output = stdout;
+  wav_t wav;
 
-    manageArgs(argc, argv, &file_input, &file_output);
-    readAudioData(&wav, file_input); 
+  manageArgs (argc, argv, &file_input, &file_output);
+  readAudioData (&wav, file_input);
 
-    // already throws audio to output.
-    reverser(&wav, file_output);
+  // already throws audio to output.
+  reverser (&wav, file_output);
 
-    return 1;
+  return 1;
 }
