@@ -50,9 +50,7 @@ static void manageArgs (int argc, char **argv, FILE ** input) {
   }
 }
 
-int
-main (int argc, char **argv)
-{
+int main(int argc, char **argv) {
 
   FILE *file_input = stdin;
   wav_header header;
