@@ -24,7 +24,7 @@ static void printHeader (wav_header * header_p) {
     printf ("data tag        (4 bytes): %.4s\n", header_p->data.SubChunk2ID);
     printf ("data size       (4 bytes): %d\n", header_p->data.SubChunk2Size);
     printf ("bytes per sample         : %d\n", bytes_per_sample);
-    printf ("samples per channel      : %ld\n", samples_per_channel);
+    printf ("samples per channel      : %d\n", samples_per_channel);
 }
 
 static void manageArgs (int argc, char **argv, FILE ** input) {
