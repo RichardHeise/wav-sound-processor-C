@@ -124,7 +124,7 @@ void reverser(wav_t *wav_pointer, FILE *output) {
 
 void echo(wav_t *wav_pointer, int time, float lvl) {
     int i;
-    // Relative delay calculate by a simples proportion law
+    // Relative delay calculate by a simple proportion law
     int delay = wav_pointer->header.fmt.Nchannels * wav_pointer->header.fmt.Sample_rate *
                 time / 1000;
 
