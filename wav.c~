@@ -10,8 +10,7 @@ void readAudioData(wav_t *wav_pointer, FILE *input) {
         exit(EXIT_READ);
     };
 
-    wav_pointer->audio = malloc (sizeof (int16_t) * wav_pointer->header.data.SubChunk2Size /
-                                 sizeof(int16_t));
+    wav_pointer->audio = malloc (sizeof (int16_t) * wav_pointer->header.data.SubChunk2Size / sizeof(int16_t));
 
     if (wav_pointer->audio == NULL) {
         fprintf(stderr, "Couldn't allocate memory.\n");
@@ -35,8 +34,7 @@ void writeAudioData(wav_t *wav_pointer, FILE *output) {
     // Writes header first for debugging reasons.
     // This way is simpler to detect where errors may happen. 
     fwrite(&wav_pointer->header, sizeof (wav_pointer->header), 1, output);
-    fwrite(wav_pointer->audio, sizeof (int16_t), wav_pointer->header.data.SubChunk2Size / 
-            sizeof(int16_t), output);
+    fwrite(wav_pointer->audio, sizeof (int16_t), wav_pointer->header.data.SubChunk2Size / sizeof(int16_t), output);
 
     free(wav_pointer->audio);
 }
@@ -82,8 +80,7 @@ void normalizer(wav_t *wav_pointer) {
     int16_t diff;
     float level;
 
-    peak = max (wav_pointer->audio, wav_pointer->header.data.SubChunk2Size /
-                sizeof(int16_t));
+    peak = max (wav_pointer->audio, wav_pointer->header.data.SubChunk2Size / sizeof(int16_t));
     diff = (MAX_VOL - peak);
     level = (((diff * 100) / MAX_VOL) / 100.0) + 1;
     fprintf (stderr, "Normalizing with value %f\n", level);
@@ -199,8 +196,7 @@ void mixWavs (wav_t *wavs, int size, wav_t *wav_out) {
         exit(EXIT_MEM);
     }   
     for (i = 0; i < size; i++) {
-        mixAudio (wavs[i].audio, wavs[i].header.data.SubChunk2Size / 
-                    sizeof(int16_t),wav_out->audio);
+        mixAudio (wavs[i].audio, wavs[i].header.data.SubChunk2Size / sizeof(int16_t),wav_out->audio);
         free(wavs[i].audio);
     }
 }
@@ -229,9 +225,7 @@ void concatWavs(wav_t *wavs, int size, wav_t *wav_out) {
 
     for (i = 0; i < size; i++) {
         // We need to tell our CopyAudio() where to begin the concat process on the output wav.
-        copyAudio(wavs[i].audio, wavs[i].header.data.SubChunk2Size / 
-                    sizeof(int16_t), wav_out->audio, &currentPos);
-                    
+        copyAudio(wavs[i].audio, wavs[i].header.data.SubChunk2Size / sizeof(int16_t), wav_out->audio, &currentPos);
         free(wavs[i].audio);
         currentPos += 1;
     }

@@ -144,8 +144,7 @@ void mixWavs (wav_t * wavs, int size, wav_t * wav_out);
  * Receives a int16_t pointer output array.
  * Receives the beginning of the output array as a uint32_t pointer.
  */
-void copyAudio (int16_t * inputA, uint32_t size, int16_t * outputA,
-		            uint32_t * beg);
+void copyAudio (int16_t * inputA, uint32_t size, int16_t * outputA, uint32_t * beg);
 
 /**
  * Function to concat wav files into a single file.

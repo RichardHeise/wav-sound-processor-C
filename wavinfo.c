@@ -6,7 +6,7 @@
 
 static void printHeader (wav_header * header_p) {
     int bytes_per_sample = (header_p->fmt.Bits_per_sample / 8);
-    long int samples_per_channel =
+    int samples_per_channel =
     (header_p->data.SubChunk2Size / bytes_per_sample) /
     header_p->fmt.Nchannels;
 
