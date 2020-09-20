@@ -1,12 +1,9 @@
 // Author: Richard Fernando Heise Ferreira
 // GRR20191053
 
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <inttypes.h>
-#include <ctype.h>
 
 // Max volume used to avoid clipping
 #define MAX_VOL     29409

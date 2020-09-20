@@ -2,6 +2,7 @@
 // GRR20191053
 
 #include "wav.h"
+#include <unistd.h>
 
 static void manageArgs(int argc, char **argv, FILE ** input, FILE ** output, float *lvl) {
 
